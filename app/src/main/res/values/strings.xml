@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Hikigram</string>
+    <string name="label_name">Name</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_confirm_password">Confirm Password</string>
+
+    <string name="hint_ex_name">Ex: Akhmad Fauzan Prayogi</string>
+    <string name="hint_ex_email">Ex: akhmadfauzanprayogi@gmail.com</string>
+
+    <string name="message_form_incorrect">Form must be corrected!</string>
+    <string name="message_password_not_match">Password doesn\'t match!</string>
+    <string name="message_register_success">Account successfully created!</string>
+
+    <string name="action_sign_up">Sign Up</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_register">Register</string>
+    <string name="action_go_to_login">Go to login page</string>
+
+    <string name="title_register_page">Register Page</string>
+    <string name="title_done">Done</string>
 </resources>
