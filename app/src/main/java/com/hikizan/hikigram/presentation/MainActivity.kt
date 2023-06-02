@@ -9,6 +9,14 @@ import com.hikizan.hikigram.databinding.ActivityMainBinding
 class MainActivity : HikizanActivityBase<ActivityMainBinding>() {
 
     companion object {
+
+        /*fun startNewTask(context: Context) {
+            context.startActivity(
+                Intent(context, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            )
+        }*/
         fun start(context: Context) {
             context.startActivity(
                 Intent(context, MainActivity::class.java)

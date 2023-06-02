@@ -7,14 +7,16 @@
     android:padding="16dp"
     tools:context=".presentation.membership.LoginActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imgLoginIllustration"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
         app:layout_constraintBottom_toTopOf="@+id/halfTopGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:lottie_rawRes="@raw/hikizan_anim_profile" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/halfTopGuideline"
