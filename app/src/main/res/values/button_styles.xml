@@ -8,4 +8,9 @@
         <item name="android:textStyle">bold</item>
         <item name="cornerRadius">12dp</item>
     </style>
+
+    <style name="HikizanButtonStyle.Disable">
+        <item name="android:enabled">false</item>
+        <item name="android:backgroundTint">@android:color/darker_gray</item>
+    </style>
 </resources>
