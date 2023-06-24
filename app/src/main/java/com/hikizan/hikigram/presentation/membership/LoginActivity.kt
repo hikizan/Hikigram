@@ -1,21 +1,29 @@
 package com.hikizan.hikigram.presentation.membership
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.hikizan.hikigram.R
 import com.hikizan.hikigram.base.HikizanActivityBase
 import com.hikizan.hikigram.databinding.ActivityLoginBinding
+import com.hikizan.hikigram.domain.reuseable.State
 import com.hikizan.hikigram.presentation.MainActivity
-import com.hikizan.hikigram.utils.emailFieldValidation
-import com.hikizan.hikigram.utils.ext.isValidPassword
-import com.hikizan.hikigram.utils.passwordFieldVlaidation
+import com.hikizan.hikigram.presentation.view_model.LoginViewModel
+import com.hikizan.hikigram.utils.hikizanEmailStream
+import com.hikizan.hikigram.utils.hikizanPasswordStream
+import com.hikizan.hikigram.utils.showEmailExistAlert
+import com.hikizan.hikigram.utils.showPasswordExistAlert
+import io.reactivex.Observable
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class LoginActivity : HikizanActivityBase<ActivityLoginBinding>() {
 
     companion object {
+
         fun startNewTask(context: Context) {
             context.startActivity(
                 Intent(context, LoginActivity::class.java).apply {
@@ -23,85 +31,103 @@ class LoginActivity : HikizanActivityBase<ActivityLoginBinding>() {
                 }
             )
         }
-}
-
-override fun initViewBinding(): ActivityLoginBinding {
-return ActivityLoginBinding.inflate(layoutInflater)
-}
-
-override fun onCreate(savedInstanceState: Bundle?) {
-super.onCreate(savedInstanceState)
-
-initIntent()
-initUI()
-initAction()
-initProcess()
-initObservers()
-}
-
-override fun initIntent() {
-}
-
-override fun initUI() {
-binding?.apply {
-    lavLogin.playAnimation()
-}
-}
-
-override fun initAction() {
-binding?.apply {
-    btnSignUp.setOnClickListener {
-        RegisterActivity.start(this@LoginActivity)
     }
-    btnSignIn.setOnClickListener {
-        signInFormValidation()
+
+    private val loginViewModel: LoginViewModel by viewModel()
+
+    override fun initViewBinding(): ActivityLoginBinding {
+        return ActivityLoginBinding.inflate(layoutInflater)
     }
-}
-}
 
-override fun initProcess(){
-}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initIntent()
+        initUI()
+        initAction()
+        initProcess()
+        initObservers()
+    }
 
-override fun initObservers() {
-binding?.apply {
-    emailFieldValidation(etEmail, tilEmail)
-    passwordFieldVlaidation(etPassword, tilPassword)
-}
-}
+    override fun initIntent() {
+    }
 
-private fun signInFormValidation() = binding?.apply {
-tilEmail.helperText = emailValidate(
-    etEmail.text.toString()
-)
-tilPassword.helperText = passwordValidate(
-    etPassword.text.toString()
-)
+    override fun initUI() {
+        binding?.apply {
+            lavLogin.playAnimation()
+        }
+    }
 
-val isErrorEmailForm = tilEmail.helperText != null
-val isErrorPasswordForm = tilPassword.helperText != null
+    override fun initAction() {
+        binding?.apply {
+            btnSignUp.setOnClickListener {
+                RegisterActivity.start(this@LoginActivity)
+            }
+            btnSignIn.setOnClickListener {
+                loginViewModel.loginUser(
+                    etEmail.text.toString(),
+                    etPassword.text.toString()
+                )
+            }
+        }
+    }
 
-if (isErrorEmailForm || isErrorPasswordForm) {
-    Toast.makeText(
-        this@LoginActivity,
-        resources.getString(R.string.message_form_incorrect),
-        Toast.LENGTH_SHORT
-    ).show()
-} else {
-    MainActivity.start(this@LoginActivity)
-}
-}
+    override fun initProcess() {
+    }
 
-private fun emailValidate(email: String): String? {
-if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-    return resources.getString(R.string.message_form_incorrect)
-}
-return null
-}
+    @SuppressLint("CheckResult")
+    override fun initObservers() {
+        binding?.apply {
+            val emailStream = hikizanEmailStream(etEmail)
+            emailStream.subscribe {
+                showEmailExistAlert(this@LoginActivity, tilEmail, it)
+            }
 
-private fun passwordValidate(password: String): String? {
-if (!password.isValidPassword()) {
-    return resources.getString(R.string.message_form_incorrect)
-}
-return null
-}
+            val passwordStream = hikizanPasswordStream( etPassword)
+            passwordStream.subscribe {
+                showPasswordExistAlert(this@LoginActivity, tilPassword, it)
+            }
+
+            val invalidFieldStream = Observable.combineLatest(
+                emailStream,
+                passwordStream
+            ) { emailInvalid: Boolean, passwordInvalid: Boolean ->
+                !emailInvalid && !passwordInvalid
+            }
+            invalidFieldStream.subscribe { isValid ->
+                if (isValid) {
+                    btnSignIn.isEnabled = true
+                    btnSignIn.setBackgroundColor(ContextCompat.getColor(this@LoginActivity, android.R.color.holo_green_dark))
+                } else {
+                    btnSignIn.isEnabled = false
+                    btnSignIn.setBackgroundColor(ContextCompat.getColor(this@LoginActivity, android.R.color.darker_gray))
+                }
+            }
+
+            loginViewModel.loginUserResult.observe(this@LoginActivity) { loginResult ->
+                if (loginResult != null) {
+                    when(loginResult) {
+                        is State.Loading -> {
+                            showLoading()
+                        }
+                        is State.Success -> {
+                            hideLoading()
+                            MainActivity.start(this@LoginActivity)
+                            Timber.d(
+                                "Name=${loginResult.data.name}\nToken=${loginResult.data.token}\nUserId=${loginResult.data.userId}"
+                            )
+                        }
+                        is State.Error -> {
+                            hideLoading()
+                            Toast.makeText(
+                                this@LoginActivity,
+                                loginResult.message ?: getString(R.string.message_error_state),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }
+    }
 }

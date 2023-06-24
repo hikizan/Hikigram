@@ -1,20 +1,31 @@
 package com.hikizan.hikigram.presentation.membership
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.core.content.ContextCompat
 import com.hikizan.hikigram.R
 import com.hikizan.hikigram.base.HikizanActivityBase
 import com.hikizan.hikigram.databinding.ActivityRegisterBinding
+import com.hikizan.hikigram.domain.reuseable.State
 import com.hikizan.hikigram.presentation.reuseable.SuccessPageActivity
-import com.hikizan.hikigram.utils.emailFieldValidation
-import com.hikizan.hikigram.utils.ext.isValidPassword
+import com.hikizan.hikigram.presentation.view_model.RegisterViewModel
 import com.hikizan.hikigram.utils.ext.setupHikizanToolbar
-import com.hikizan.hikigram.utils.passwordFieldVlaidation
+import com.hikizan.hikigram.utils.hikizanEmailStream
+import com.hikizan.hikigram.utils.hikizanMandatoryFormStream
+import com.hikizan.hikigram.utils.hikizanPasswordConfirmationStream
+import com.hikizan.hikigram.utils.hikizanPasswordStream
+import com.hikizan.hikigram.utils.showConfirmPasswordExistAlert
+import com.hikizan.hikigram.utils.showEmailExistAlert
+import com.hikizan.hikigram.utils.showMandatoryFormExistAlert
+import com.hikizan.hikigram.utils.showPasswordExistAlert
+import io.reactivex.Observable
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
 
@@ -25,6 +36,8 @@ class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
             )
         }
     }
+
+    private val registerViewModel: RegisterViewModel by viewModel()
 
     override fun initViewBinding(): ActivityRegisterBinding {
         return ActivityRegisterBinding.inflate(layoutInflater)
@@ -56,7 +69,12 @@ class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
     override fun initAction() {
         binding?.apply {
             btnRegister.setOnClickListener {
-                registerFormValidation()
+                //post for register account
+                registerViewModel.registerUser(
+                    etRegisterName.text.toString(),
+                    etRegisterEmail.text.toString(),
+                    etRegisterPassword.text.toString()
+                )
             }
         }
     }
@@ -64,63 +82,86 @@ class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
     override fun initProcess() {
     }
 
+    @SuppressLint("CheckResult")
     override fun initObservers() {
         binding?.apply {
-            emailFieldValidation(etRegisterEmail, tilRegisterEmail)
-            passwordFieldVlaidation(etRegisterPassword, tilRegisterPassword)
+            val nameRegisterStream = hikizanMandatoryFormStream(etRegisterName)
+            nameRegisterStream.subscribe {
+                showMandatoryFormExistAlert(
+                    this@RegisterActivity, tilRegisterName, it
+                )
+            }
+
+            val emailRegisterStream = hikizanEmailStream(etRegisterEmail)
+            emailRegisterStream.subscribe {
+                showEmailExistAlert(
+                    this@RegisterActivity, tilRegisterEmail, it
+                )
+            }
+
+            val passwordRegisterStream = hikizanPasswordStream(etRegisterPassword)
+            passwordRegisterStream.subscribe {
+                showPasswordExistAlert(
+                    this@RegisterActivity, tilRegisterPassword, it
+                )
+            }
+
+            val passwordConfrimStream = hikizanPasswordConfirmationStream(
+                etRegisterPassword, etConfirmPassword
+            )
+            passwordConfrimStream.subscribe {
+                showConfirmPasswordExistAlert(
+                    this@RegisterActivity, tilConfirmPassword, it
+                )
+            }
+
+            val invalidFieldStream = Observable.combineLatest(
+                nameRegisterStream,
+                emailRegisterStream,
+                passwordRegisterStream,
+                passwordConfrimStream
+            ) { isEmptyName: Boolean, emailInvalid: Boolean, passwordInvalid: Boolean, passwordConfirmationInvalid: Boolean ->
+                !isEmptyName && !emailInvalid && !passwordInvalid && !passwordConfirmationInvalid
+            }
+            invalidFieldStream.subscribe { isValid ->
+                if (isValid) {
+                    btnRegister.isEnabled = true
+                    btnRegister.setBackgroundColor(ContextCompat.getColor(this@RegisterActivity, R.color.purple_700))
+                } else {
+                    btnRegister.isEnabled = false
+                    btnRegister.setBackgroundColor(ContextCompat.getColor(this@RegisterActivity, android.R.color.darker_gray))
+                }
+            }
+
+            registerViewModel.registerUserResult.observe(this@RegisterActivity) { registerResult ->
+                if (registerResult != null) {
+                    when(registerResult) {
+                        is State.Loading -> {
+                            showLoading()
+                        }
+                        is State.Success -> {
+                            hideLoading()
+                            Timber.d(registerResult.data.message.toString())
+                            directToSuccessPage()
+                        }
+                        is State.Error -> {
+                            hideLoading()
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                registerResult.message ?: getString(R.string.message_error_state),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {}
+                    }
+                }
+            }
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true
-    }
-
-    private fun registerFormValidation() = binding?.apply {
-        if (etRegisterPassword.text.toString() == etConfirmPassword.text.toString()) {
-            tilRegisterEmail.helperText = emailValidate(
-                etRegisterEmail.text.toString()
-            )
-            tilRegisterPassword.helperText = passwordValidate(
-                etRegisterPassword.text.toString()
-            )
-
-            val isErrorEmailForm = tilRegisterEmail.helperText != null
-            val isErrorPasswordForm = tilRegisterPassword.helperText != null
-
-            if (isErrorEmailForm || isErrorPasswordForm) {
-                Toast.makeText(
-                    this@RegisterActivity,
-                    resources.getString(R.string.message_form_incorrect),
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                //post for register account (coming soon!)
-                directToSuccessPage()
-            }
-
-        } else {
-            Toast.makeText(
-                this@RegisterActivity,
-                resources.getString(R.string.message_password_not_match),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-    }
-
-    private fun emailValidate(email: String): String? {
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            return resources.getString(R.string.message_form_incorrect)
-        }
-        return null
-    }
-
-    private fun passwordValidate(password: String): String? {
-        if (!password.isValidPassword()) {
-            return resources.getString(R.string.message_form_incorrect)
-        }
-        return null
     }
 
     private fun directToSuccessPage() {
