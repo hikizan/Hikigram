@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.ContextCompat
 import com.hikizan.hikigram.R
 import com.hikizan.hikigram.base.HikizanActivityBase
 import com.hikizan.hikigram.databinding.ActivityRegisterBinding
+import com.hikizan.hikigram.domain.reuseable.State
 import com.hikizan.hikigram.presentation.reuseable.SuccessPageActivity
+import com.hikizan.hikigram.presentation.view_model.RegisterViewModel
 import com.hikizan.hikigram.utils.ext.setupHikizanToolbar
 import com.hikizan.hikigram.utils.hikizanEmailStream
 import com.hikizan.hikigram.utils.hikizanMandatoryFormStream
@@ -21,6 +24,8 @@ import com.hikizan.hikigram.utils.showEmailExistAlert
 import com.hikizan.hikigram.utils.showMandatoryFormExistAlert
 import com.hikizan.hikigram.utils.showPasswordExistAlert
 import io.reactivex.Observable
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
 
@@ -31,6 +36,8 @@ class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
             )
         }
     }
+
+    private val registerViewModel: RegisterViewModel by viewModel()
 
     override fun initViewBinding(): ActivityRegisterBinding {
         return ActivityRegisterBinding.inflate(layoutInflater)
@@ -62,8 +69,12 @@ class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
     override fun initAction() {
         binding?.apply {
             btnRegister.setOnClickListener {
-                //post for register account (coming soon!)
-                directToSuccessPage()
+                //post for register account
+                registerViewModel.registerUser(
+                    etRegisterName.text.toString(),
+                    etRegisterEmail.text.toString(),
+                    etRegisterPassword.text.toString()
+                )
             }
         }
     }
@@ -119,6 +130,30 @@ class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
                 } else {
                     btnRegister.isEnabled = false
                     btnRegister.setBackgroundColor(ContextCompat.getColor(this@RegisterActivity, android.R.color.darker_gray))
+                }
+            }
+
+            registerViewModel.registerUserResult.observe(this@RegisterActivity) { registerResult ->
+                if (registerResult != null) {
+                    when(registerResult) {
+                        is State.Loading -> {
+                            showLoading()
+                        }
+                        is State.Success -> {
+                            hideLoading()
+                            Timber.d(registerResult.data.message.toString())
+                            directToSuccessPage()
+                        }
+                        is State.Error -> {
+                            hideLoading()
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                registerResult.message ?: getString(R.string.message_error_state),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {}
+                    }
                 }
             }
         }

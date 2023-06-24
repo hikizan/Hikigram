@@ -8,6 +8,7 @@
     <string name="hint_ex_name">Ex: Akhmad Fauzan Prayogi</string>
     <string name="hint_ex_email">Ex: akhmadfauzanprayogi@gmail.com</string>
 
+    <string name="message_error_state">Whoops! Something went wrong</string>
     <string name="message_form_empty">Form must be filled!</string>
     <string name="message_form_incorrect">Form must be corrected!</string>
     <string name="message_email_not_valid">Please enter a valid email address</string>

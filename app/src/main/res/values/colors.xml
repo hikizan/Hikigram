@@ -10,4 +10,6 @@
 
     <color name="colorLightGray">#A6DFD7D7</color>
     <color name="colorRed">#DA0C0C</color>
+    <color name="colorQuarterTransparent">#40000000</color>
+    <color name="colorTransparent">#00FFFFFF</color>
 </resources>
