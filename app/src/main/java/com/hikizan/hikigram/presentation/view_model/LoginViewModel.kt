@@ -16,11 +16,20 @@ class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
     private val _loginUserResult: MutableLiveData<State<Login>> = MutableLiveData()
     val loginUserResult: LiveData<State<Login>> get() = _loginUserResult
 
+    private val _loginStateResult: MutableLiveData<Boolean> = MutableLiveData()
+    val loginStateResult: LiveData<Boolean> get() = _loginStateResult
+
     fun loginUser(email: String, password: String) = viewModelScope.launch {
         proceed(_loginUserResult) {
             authUseCase.loginUser(
                 loginParam = LoginParam(email, password)
             )
+        }
+    }
+
+    fun getLoginState() = viewModelScope.launch {
+        proceed(_loginStateResult) {
+            authUseCase.getLoginState()
         }
     }
 }

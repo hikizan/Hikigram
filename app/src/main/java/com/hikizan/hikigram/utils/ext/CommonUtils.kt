@@ -17,6 +17,8 @@ fun AppCompatActivity.setupHikizanToolbar(
     }
 }
 
+val emptyString: String = ""
+
 fun String?.orEmptyString(): String {
     return this ?: ""
 }

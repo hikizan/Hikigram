@@ -10,4 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface AuthRepository {
     fun registerUser(registerParam: RegisterParam): Flow<State<Register>>
     fun loginUser(loginParam: LoginParam): Flow<State<Login>>
+    fun getLoginState(): Flow<Boolean>
+    fun getLoginName(): Flow<String>
+    suspend fun logoutUser()
 }

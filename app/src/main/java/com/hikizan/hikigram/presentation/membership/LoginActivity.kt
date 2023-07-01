@@ -55,6 +55,7 @@ class LoginActivity : HikizanActivityBase<ActivityLoginBinding>() {
         binding?.apply {
             lavLogin.playAnimation()
         }
+
     }
 
     override fun initAction() {
@@ -72,6 +73,7 @@ class LoginActivity : HikizanActivityBase<ActivityLoginBinding>() {
     }
 
     override fun initProcess() {
+        loginViewModel.getLoginState()
     }
 
     @SuppressLint("CheckResult")
@@ -111,7 +113,7 @@ class LoginActivity : HikizanActivityBase<ActivityLoginBinding>() {
                         }
                         is State.Success -> {
                             hideLoading()
-                            MainActivity.start(this@LoginActivity)
+                            MainActivity.startNewTask(this@LoginActivity)
                             Timber.d(
                                 "Name=${loginResult.data.name}\nToken=${loginResult.data.token}\nUserId=${loginResult.data.userId}"
                             )
@@ -126,6 +128,12 @@ class LoginActivity : HikizanActivityBase<ActivityLoginBinding>() {
                         }
                         else -> {}
                     }
+                }
+            }
+
+            loginViewModel.loginStateResult.observe(this@LoginActivity) { isLogin ->
+                if (isLogin) {
+                    MainActivity.startNewTask(this@LoginActivity)
                 }
             }
         }
