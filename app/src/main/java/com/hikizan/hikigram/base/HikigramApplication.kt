@@ -2,6 +2,7 @@ package com.hikizan.hikigram.base
 
 import android.app.Application
 import com.hikizan.hikigram.BuildConfig
+import com.hikizan.hikigram.di.dataStoreModule
 import com.hikizan.hikigram.di.fetureModules.authRepositoryModule
 import com.hikizan.hikigram.di.fetureModules.authUseCaseModule
 import com.hikizan.hikigram.di.fetureModules.authViewModelModule
@@ -24,6 +25,7 @@ class HikigramApplication : Application() {
             modules(
                 listOf(
                     networkModule,
+                    dataStoreModule,
                     authRepositoryModule,
                     authUseCaseModule,
                     authViewModelModule

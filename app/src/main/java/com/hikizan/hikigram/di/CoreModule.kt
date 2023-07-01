@@ -1,8 +1,13 @@
 package com.hikizan.hikigram.di
 
+import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
+import com.hikizan.hikigram.data.local.datastore.UserPreference
 import com.hikizan.hikigram.data.remote.network.ApiClient
+import com.hikizan.hikigram.utils.constants.BundleKeys.USER_PREFERENCE_SETTINGS
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,5 +32,13 @@ val networkModule = module {
             .client(get())
             .build()
         retrofit.create(ApiClient::class.java)
+    }
+}
+
+private val Context.datastore by preferencesDataStore(USER_PREFERENCE_SETTINGS)
+
+val dataStoreModule = module {
+    single {
+        UserPreference(androidContext().datastore)
     }
 }
