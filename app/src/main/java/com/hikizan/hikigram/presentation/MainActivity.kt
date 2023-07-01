@@ -19,11 +19,6 @@ class MainActivity : HikizanActivityBase<ActivityMainBinding>() {
                 }
             )
         }
-        fun start(context: Context) {
-            context.startActivity(
-                Intent(context, MainActivity::class.java)
-            )
-        }
     }
 
     private val mainActivityViewModel: MainActivityViewModel by viewModel()
