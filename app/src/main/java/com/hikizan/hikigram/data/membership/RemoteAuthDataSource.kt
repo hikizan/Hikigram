@@ -6,6 +6,7 @@ import com.hikizan.hikigram.data.remote.model.response.LoginResponse
 import com.hikizan.hikigram.data.remote.network.ApiClient
 
 class RemoteAuthDataSource(private val apiClient: ApiClient) {
+
     suspend fun registerUser(registerRequest: RegisterRequest): BaseResponse {
         return apiClient.registerUser(registerRequest)
     }

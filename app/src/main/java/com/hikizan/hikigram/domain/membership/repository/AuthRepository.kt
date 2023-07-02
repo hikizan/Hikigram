@@ -1,4 +1,4 @@
-package com.hikizan.hikigram.domain.membership
+package com.hikizan.hikigram.domain.membership.repository
 
 import com.hikizan.hikigram.domain.membership.model.request.LoginParam
 import com.hikizan.hikigram.domain.membership.model.request.RegisterParam

@@ -1,7 +1,7 @@
 package com.hikizan.hikigram.data.membership
 
 import com.hikizan.hikigram.data.local.datastore.UserPreference
-import com.hikizan.hikigram.domain.membership.AuthRepository
+import com.hikizan.hikigram.domain.membership.repository.AuthRepository
 import com.hikizan.hikigram.domain.membership.mapper.mapToLoginDomain
 import com.hikizan.hikigram.domain.membership.mapper.mapToRegisterDomain
 import com.hikizan.hikigram.domain.membership.mapper.mapToRegisterRequest
