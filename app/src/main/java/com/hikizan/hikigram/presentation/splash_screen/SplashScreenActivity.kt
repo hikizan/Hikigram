@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.hikizan.hikigram.base.HikizanActivityBase
 import com.hikizan.hikigram.databinding.ActivitySplashScreenBinding
-import com.hikizan.hikigram.presentation.MainActivity
+import com.hikizan.hikigram.presentation.main.MainActivity
 import com.hikizan.hikigram.presentation.membership.LoginActivity
 import com.hikizan.hikigram.presentation.view_model.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel

@@ -11,6 +11,7 @@ import com.hikizan.hikigram.domain.story.model.response.StoryCreated
 import com.hikizan.hikigram.domain.story.repository.StoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
@@ -24,7 +25,7 @@ class ImplStoryRepository(
             emit(State.Loading())
             try {
                 val storyCreatedResponse = remoteStoryDataSource.createStory(
-                    userPreference.getLoginToken().toString(),
+                    userPreference.getLoginToken().first(),
                     storyCreatedParam.mapToRequest()
                 )
 
@@ -42,8 +43,8 @@ class ImplStoryRepository(
             emit(State.Loading())
             try {
                 val getStoriesResponse = remoteStoryDataSource.getStories(
-                    userPreference.getLoginToken().toString(),
-                    StoriesRequest(location = 1)
+                    userPreference.getLoginToken().first(),
+                    StoriesRequest(location = 0)
                 )
 
                 if (getStoriesResponse.listStory != null) {
@@ -66,7 +67,7 @@ class ImplStoryRepository(
             emit(State.Loading())
             try {
                 val getDetailStoryResponse = remoteStoryDataSource.getDetailStory(
-                    userPreference.getLoginToken().toString(),
+                    userPreference.getLoginToken().first(),
                     storyId
                 )
 

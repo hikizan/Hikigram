@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.story.DetailStoryActivity">
+
+    <include
+        android:id="@+id/layoutToolbarDetailStory"
+        layout="@layout/hikizan_toolbar_layout" />
+
+    <FrameLayout
+        android:id="@+id/imageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            app:cardCornerRadius="32dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgItemPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+    <com.kennyc.view.MultiStateView
+        android:id="@+id/msvStory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageContainer"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:msv_emptyView="@layout/hikizan_empty_state_layout"
+        app:msv_errorView="@layout/hikizan_error_state_layout">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvItemDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/imageContainer"
+            android:background="@drawable/bg_description_detail_story"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="test test" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvItemDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:padding="10dp"
+            android:textColor="@android:color/darker_gray"
+            tools:text="05 Jun 2023" />
+    </com.kennyc.view.MultiStateView>
+
+</RelativeLayout>

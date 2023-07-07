@@ -12,12 +12,6 @@ import kotlinx.coroutines.flow.map
 
 class UserPreference(private val dataStore: DataStore<Preferences>) {
 
-    /*suspend fun saveLoginToken(token: String) {
-        dataStore.edit { mutablePreferences ->
-            mutablePreferences[KEY_USER_PREFERENCE_LOGIN_TOKEN] = token
-        }
-    }*/
-
     suspend fun saveLoginState(isLogin: Boolean, token: String = emptyString, userName: String = emptyString) {
         dataStore.edit { mutablePreferences ->
             mutablePreferences[KEY_USER_PREFERENCE_LOGIN_STATE] = isLogin

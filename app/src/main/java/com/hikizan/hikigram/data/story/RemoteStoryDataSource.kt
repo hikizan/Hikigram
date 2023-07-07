@@ -6,6 +6,7 @@ import com.hikizan.hikigram.data.remote.model.response.BaseResponse
 import com.hikizan.hikigram.data.remote.model.response.DetailStoryResponse
 import com.hikizan.hikigram.data.remote.model.response.StoriesResponse
 import com.hikizan.hikigram.data.remote.network.ApiClient
+import com.hikizan.hikigram.utils.ext.setBearer
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -16,7 +17,7 @@ class RemoteStoryDataSource(private val apiClient: ApiClient) {
 
     suspend fun createStory(loginToken: String, story: StoryCreatedRequest): BaseResponse {
         return apiClient.createStory(
-            loginToken = loginToken,
+            loginToken = loginToken.setBearer(),
             description = story.description.toRequestBody("text/plain".toMediaType()),
             photo = MultipartBody.Part.createFormData("photo", story.photo.name, story.photo.asRequestBody("image/jpeg".toMediaTypeOrNull())),
             latitude = story.location?.latitude.toString().toRequestBody("text/plain".toMediaType()),
@@ -25,10 +26,15 @@ class RemoteStoryDataSource(private val apiClient: ApiClient) {
     }
 
     suspend fun getStories(loginToken: String, storiesRequest: StoriesRequest): StoriesResponse {
-        return apiClient.getStories(loginToken, storiesRequest)
+        return apiClient.getStories(
+            loginToken.setBearer(),
+            storiesRequest.page,
+            storiesRequest.size,
+            storiesRequest.location
+        )
     }
 
     suspend fun getDetailStory(loginToken: String, storyId: String): DetailStoryResponse {
-        return apiClient.getDetailStory(loginToken, storyId)
+        return apiClient.getDetailStory(loginToken.setBearer(), storyId)
     }
 }

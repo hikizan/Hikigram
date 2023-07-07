@@ -9,7 +9,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="colorLightGray">#A6DFD7D7</color>
+    <color name="colorDarkGray">#A49A9A</color>
     <color name="colorRed">#DA0C0C</color>
     <color name="colorQuarterTransparent">#40000000</color>
-    <color name="colorTransparent">#00FFFFFF</color>
+    <color name="colorTenPercentTransparent">#1A000000</color>
+    <color name="colorBlackTransparent">#00000000</color>
+    <color name="colorWhiteTransparent">#00FFFFFF</color>
 </resources>

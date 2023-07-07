@@ -17,6 +17,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiClient {
 
@@ -45,7 +46,9 @@ interface ApiClient {
     @GET("stories")
     suspend fun getStories(
         @Header("Authorization") loginToken: String,
-        @Body storiesRequest: StoriesRequest
+        @Query("page") page: Int?,
+        @Query("size") size: Int?,
+        @Query("location") location: Int?
     ): StoriesResponse
 
     @GET("stories/{story_id}")

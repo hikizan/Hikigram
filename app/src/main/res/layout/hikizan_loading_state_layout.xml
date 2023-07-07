@@ -9,7 +9,7 @@
         android:id="@+id/lavHikizanLoading"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:background="@color/colorTransparent"
+        android:background="@color/colorBlackTransparent"
         android:layout_centerInParent="true"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
