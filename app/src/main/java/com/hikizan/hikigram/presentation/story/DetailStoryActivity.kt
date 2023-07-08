@@ -2,9 +2,8 @@ package com.hikizan.hikigram.presentation.story
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
+import androidx.core.app.ActivityOptionsCompat
 import com.bumptech.glide.Glide
 import com.hikizan.hikigram.R
 import com.hikizan.hikigram.base.HikizanActivityBase
@@ -13,7 +12,6 @@ import com.hikizan.hikigram.domain.reuseable.State
 import com.hikizan.hikigram.domain.story.model.response.Story
 import com.hikizan.hikigram.presentation.view_model.StoryViewModel
 import com.hikizan.hikigram.utils.constants.BundleKeys
-import com.hikizan.hikigram.utils.ext.emptyString
 import com.hikizan.hikigram.utils.ext.hikigramDateFormat
 import com.hikizan.hikigram.utils.ext.orEmptyString
 import com.hikizan.hikigram.utils.ext.setupHikizanToolbar
@@ -26,11 +24,16 @@ class DetailStoryActivity : HikizanActivityBase<ActivityDetailStoryBinding>() {
 
     companion object {
 
-        fun start(context: Context, storyId: String) {
+        fun start(
+            context: Context,
+            storyId: String,
+            optionCompat: ActivityOptionsCompat
+        ) {
             context.startActivity(
                 Intent(context, DetailStoryActivity::class.java).apply {
                     putExtra(BundleKeys.KEY_STORY_ID, storyId)
-                }
+                },
+                optionCompat.toBundle()
             )
         }
     }
@@ -59,6 +62,7 @@ class DetailStoryActivity : HikizanActivityBase<ActivityDetailStoryBinding>() {
 
     override fun initUI() {
         binding?.apply {
+            layoutToolbarDetailStory.toolbar.title
             setupHikizanToolbar(
                 toolbarLayout = layoutToolbarDetailStory,
                 title = storyId.orEmptyString(),

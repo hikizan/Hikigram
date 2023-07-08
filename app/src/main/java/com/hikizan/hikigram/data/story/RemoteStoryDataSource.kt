@@ -19,6 +19,15 @@ class RemoteStoryDataSource(private val apiClient: ApiClient) {
         return apiClient.createStory(
             loginToken = loginToken.setBearer(),
             description = story.description.toRequestBody("text/plain".toMediaType()),
+            photo = MultipartBody.Part.createFormData("photo", story.photo.name, story.photo.asRequestBody("image/jpeg".toMediaTypeOrNull()))
+        )
+    }
+
+    /* coming soon on final submission */
+    suspend fun createStoryWithLocation(loginToken: String, story: StoryCreatedRequest): BaseResponse {
+        return apiClient.createStoryWithLocation(
+            loginToken = loginToken.setBearer(),
+            description = story.description.toRequestBody("text/plain".toMediaType()),
             photo = MultipartBody.Part.createFormData("photo", story.photo.name, story.photo.asRequestBody("image/jpeg".toMediaTypeOrNull())),
             latitude = story.location?.latitude.toString().toRequestBody("text/plain".toMediaType()),
             longitude = story.location?.longitude.toString().toRequestBody("text/plain".toMediaType())

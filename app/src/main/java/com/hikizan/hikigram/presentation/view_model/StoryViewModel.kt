@@ -38,7 +38,9 @@ class StoryViewModel(private val storyUseCase: StoryUseCase) : ViewModel() {
     }
 
     fun createStory(
-        description: String, photo: File, location: Location
+        description: String,
+        photo: File,
+        location: Location? = null
     ) = viewModelScope.launch {
         proceed(_createStoryResult) {
             storyUseCase.createStory(

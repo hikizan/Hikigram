@@ -5,7 +5,6 @@ import com.hikizan.hikigram.data.membership.RemoteAuthDataSource
 import com.hikizan.hikigram.domain.membership.AuthInteractor
 import com.hikizan.hikigram.domain.membership.repository.AuthRepository
 import com.hikizan.hikigram.domain.membership.AuthUseCase
-import com.hikizan.hikigram.presentation.MainActivityViewModel
 import com.hikizan.hikigram.presentation.view_model.LoginViewModel
 import com.hikizan.hikigram.presentation.view_model.ProfileViewModel
 import com.hikizan.hikigram.presentation.view_model.RegisterViewModel
@@ -25,5 +24,4 @@ val authViewModelModule = module {
     viewModel { RegisterViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
-    viewModel { MainActivityViewModel(get()) } //just for try dataStore
 }

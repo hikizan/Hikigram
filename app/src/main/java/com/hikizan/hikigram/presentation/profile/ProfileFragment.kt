@@ -6,6 +6,7 @@ import com.hikizan.hikigram.R
 import com.hikizan.hikigram.base.HikizanFragmentBase
 import com.hikizan.hikigram.databinding.FragmentProfileBinding
 import com.hikizan.hikigram.presentation.membership.LoginActivity
+import com.hikizan.hikigram.presentation.story.CreateStoryActivity
 import com.hikizan.hikigram.presentation.view_model.ProfileViewModel
 import com.hikizan.hikigram.utils.ext.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,10 +42,12 @@ class ProfileFragment : HikizanFragmentBase<FragmentProfileBinding>() {
             imgBookmarks.setOnClickListener {
                 requireContext().showToast(getString(R.string.coming_soon))
             }
-
             btnLogout.setOnClickListener {
                 profileViewModel.logoutUser()
                 LoginActivity.startNewTask(requireContext())
+            }
+            btnCreateStory.setOnClickListener {
+                CreateStoryActivity.start(requireContext())
             }
         }
     }
@@ -56,7 +59,7 @@ class ProfileFragment : HikizanFragmentBase<FragmentProfileBinding>() {
     override fun initObservers() {
         binding?.apply {
             profileViewModel.loginNameResult.observe(requireActivity()) { userName ->
-                tvUserName.text = "Happy coding.. \n$userName"
+                tvUserName.text = getString(R.string.happy_coding, userName)
             }
         }
     }

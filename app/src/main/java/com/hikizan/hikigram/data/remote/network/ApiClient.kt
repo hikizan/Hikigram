@@ -1,7 +1,6 @@
 package com.hikizan.hikigram.data.remote.network
 
 import com.hikizan.hikigram.data.remote.model.request.RegisterRequest
-import com.hikizan.hikigram.data.remote.model.request.StoriesRequest
 import com.hikizan.hikigram.data.remote.model.response.BaseResponse
 import com.hikizan.hikigram.data.remote.model.response.DetailStoryResponse
 import com.hikizan.hikigram.data.remote.model.response.LoginResponse
@@ -38,9 +37,17 @@ interface ApiClient {
     suspend fun createStory(
         @Header("Authorization") loginToken: String,
         @Part("description") description: RequestBody,
+        @Part photo: MultipartBody.Part
+    ): BaseResponse
+
+    @Multipart
+    @POST("stories")
+    suspend fun createStoryWithLocation(
+        @Header("Authorization") loginToken: String,
+        @Part("description") description: RequestBody,
         @Part photo: MultipartBody.Part,
-        @Part("lat") latitude: RequestBody?,
-        @Part("lon") longitude: RequestBody?
+        @Part("lat") latitude: RequestBody? = null,
+        @Part("lon") longitude: RequestBody? = null
     ): BaseResponse
 
     @GET("stories")

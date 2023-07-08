@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Hikigram"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.story.CreateStoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.story.DetailStoryActivity"
             android:exported="false" />
         <activity

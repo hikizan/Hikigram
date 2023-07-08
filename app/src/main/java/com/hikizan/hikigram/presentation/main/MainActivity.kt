@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.tabs.TabLayoutMediator
+import com.hikizan.hikigram.R
 import com.hikizan.hikigram.base.HikizanActivityBase
 import com.hikizan.hikigram.databinding.ActivityMainBinding
-import com.hikizan.hikigram.presentation.MainActivityViewModel
 import com.hikizan.hikigram.presentation.main.adapter.MainTabAdapter
-import com.hikizan.hikigram.presentation.membership.LoginActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : HikizanActivityBase<ActivityMainBinding>() {
 
@@ -51,8 +49,8 @@ class MainActivity : HikizanActivityBase<ActivityMainBinding>() {
     override fun initUI() {
         binding?.apply {
             val tabTitles = listOf(
-                "Journey Story",
-                "Profile"
+                getString(R.string.title_journey_story),
+                getString(R.string.title_profile)
             )
             vpMain.apply {
                 adapter = viewPagerAdapter

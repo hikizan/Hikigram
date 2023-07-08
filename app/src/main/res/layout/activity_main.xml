@@ -13,6 +13,7 @@
         android:backgroundTint="@color/colorTenPercentTransparent"
         app:tabPaddingTop="8dp"
         app:tabPaddingBottom="8dp"
+        android:contentDescription="@string/content_desc_main_tab"
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicatorGravity="bottom"
         app:tabIndicatorFullWidth="false"

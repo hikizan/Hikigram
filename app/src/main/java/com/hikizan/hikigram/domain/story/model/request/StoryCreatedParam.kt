@@ -6,5 +6,5 @@ import java.io.File
 data class StoryCreatedParam(
     val description: String,
     val photo: File,
-    val location: Location
+    val location: Location? = null
 )

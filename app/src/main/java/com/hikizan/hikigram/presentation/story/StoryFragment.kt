@@ -3,7 +3,6 @@ package com.hikizan.hikigram.presentation.story
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.hikizan.hikigram.R
 import com.hikizan.hikigram.base.HikizanFragmentBase
 import com.hikizan.hikigram.databinding.FragmentStoryBinding
@@ -14,7 +13,6 @@ import com.hikizan.hikigram.utils.ext.showDefaultState
 import com.hikizan.hikigram.utils.ext.showEmptyState
 import com.hikizan.hikigram.utils.ext.showErrorState
 import com.hikizan.hikigram.utils.ext.showLoadingState
-import com.hikizan.hikigram.utils.ext.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StoryFragment : HikizanFragmentBase<FragmentStoryBinding>() {
@@ -64,9 +62,13 @@ class StoryFragment : HikizanFragmentBase<FragmentStoryBinding>() {
                 swipeStoryContainer.isRefreshing = false
             }
 
-            storyAdapter.onItemClick = { selectedData ->
-                requireContext().showToast(selectedData.name)
-                DetailStoryActivity.start(requireContext(), selectedData.id)
+            storyAdapter.onItemClick = { selectedData, optionCompat ->
+
+                DetailStoryActivity.start(
+                    requireContext(),
+                    selectedData.id,
+                    optionCompat
+                )
             }
         }
     }

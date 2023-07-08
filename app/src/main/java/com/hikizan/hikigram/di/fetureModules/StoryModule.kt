@@ -5,7 +5,6 @@ import com.hikizan.hikigram.data.story.RemoteStoryDataSource
 import com.hikizan.hikigram.domain.story.StoryInteractor
 import com.hikizan.hikigram.domain.story.StoryUseCase
 import com.hikizan.hikigram.domain.story.repository.StoryRepository
-import com.hikizan.hikigram.presentation.view_model.ProfileViewModel
 import com.hikizan.hikigram.presentation.view_model.StoryViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

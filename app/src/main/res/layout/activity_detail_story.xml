@@ -27,6 +27,7 @@
                 android:layout_height="300dp"
                 android:layout_marginTop="?attr/actionBarSize"
                 android:scaleType="centerCrop"
+                android:transitionName="photo"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
         </androidx.cardview.widget.CardView>
     </FrameLayout>
@@ -54,6 +55,7 @@
             android:padding="16dp"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:transitionName="description"
             tools:text="test test" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -61,8 +63,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:padding="10dp"
-            android:textColor="@android:color/darker_gray"
+            android:padding="20dp"
+            android:textColor="@color/colorDarknessGray"
+            android:transitionName="date"
             tools:text="05 Jun 2023" />
     </com.kennyc.view.MultiStateView>
 

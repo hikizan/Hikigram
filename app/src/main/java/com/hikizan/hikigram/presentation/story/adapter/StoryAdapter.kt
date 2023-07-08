@@ -1,8 +1,11 @@
 package com.hikizan.hikigram.presentation.story.adapter
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hikizan.hikigram.R
@@ -14,7 +17,7 @@ import com.hikizan.hikigram.utils.ext.orEmptyString
 class StoryAdapter : RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
 
     private var listData = ArrayList<Story>()
-    var onItemClick: ((Story) -> Unit)? = null
+    var onItemClick: ((Story, ActivityOptionsCompat) -> Unit)? = null
 
     fun setData(newListData: List<Story>?) {
         if (newListData == null) return
@@ -48,7 +51,18 @@ class StoryAdapter : RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
         }
         init {
             binding.root.setOnClickListener {
-                onItemClick?.invoke(listData[adapterPosition])
+
+                val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    itemView.context as Activity,
+                    Pair(binding.imgItemPhoto, "photo"),
+                    Pair(binding.tvItemDescription, "description"),
+                    Pair(binding.tvItemDate, "date"),
+                    Pair(binding.tvItemName, "username")
+                )
+                onItemClick?.invoke(
+                    listData[adapterPosition],
+                    optionsCompat
+                )
             }
         }
     }

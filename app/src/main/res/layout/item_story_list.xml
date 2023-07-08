@@ -52,13 +52,13 @@
             android:layout_marginTop="6dp"
             android:layout_marginBottom="8dp"
             android:inputType="textMultiLine"
+            android:maxLines="4"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/tvItemDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgItemPhoto"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at ante. Mauris eleifend, quam a vulputate dictum, massa quam dapibus leo, eget vulputate orci purus ut lorem." />
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at ante. Mauris eleifend, quam a vulputate dictum, massa quam dapibus leo" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvItemDate"
