@@ -10,7 +10,7 @@ import com.hikizan.hikigram.R
 import com.hikizan.hikigram.base.HikizanActivityBase
 import com.hikizan.hikigram.databinding.ActivityLoginBinding
 import com.hikizan.hikigram.domain.reuseable.State
-import com.hikizan.hikigram.presentation.MainActivity
+import com.hikizan.hikigram.presentation.main.MainActivity
 import com.hikizan.hikigram.presentation.view_model.LoginViewModel
 import com.hikizan.hikigram.utils.hikizanEmailStream
 import com.hikizan.hikigram.utils.hikizanPasswordStream

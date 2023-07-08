@@ -1,8 +1,22 @@
 package com.hikizan.hikigram.utils.ext
 
+import android.content.Context
 import android.graphics.Color
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.hikizan.hikigram.R
 import com.hikizan.hikigram.databinding.HikizanToolbarLayoutBinding
+import com.hikizan.hikigram.utils.constants.AppConstants
+import com.kennyc.view.MultiStateView
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 fun AppCompatActivity.setupHikizanToolbar(
     toolbarLayout: HikizanToolbarLayoutBinding,
@@ -14,6 +28,43 @@ fun AppCompatActivity.setupHikizanToolbar(
         supportActionBar?.title = title.orEmptyString()
         supportActionBar?.setDisplayHomeAsUpEnabled(isChild)
         toolbar.setTitleTextColor(Color.WHITE)
+    }
+}
+
+fun Context.showToast(message: CharSequence) =
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+fun MultiStateView.showDefaultState() {
+    viewState = MultiStateView.ViewState.CONTENT
+}
+
+fun MultiStateView.showLoadingState() {
+    viewState = MultiStateView.ViewState.LOADING
+}
+
+fun MultiStateView.showEmptyState() {
+    viewState = MultiStateView.ViewState.EMPTY
+}
+
+fun MultiStateView.showErrorState(
+    message: String? = null,
+    action: Pair<String, (() -> Unit)>? = null
+) {
+    viewState = MultiStateView.ViewState.ERROR
+    val view = getView(MultiStateView.ViewState.ERROR)
+
+    message?.let {
+        val tvError = view?.findViewById<TextView>(R.id.tvError)
+        if (message.isNotEmpty()) {
+            tvError?.text = message
+        }
+    }
+
+    action?.let { pair ->
+        val btnError = view?.findViewById<Button>(R.id.btnRetry)
+        btnError?.text = pair.first
+
+        btnError?.setOnClickListener { pair.second.invoke() }
     }
 }
 
@@ -31,4 +82,29 @@ fun String.isValidPassword(): Boolean {
     if (this.filter { !it.isLetterOrDigit() }.firstOrNull() == null) return false
 
     return true
+}
+
+fun String.setBearer(): String {
+    return "Bearer $this"
+}
+
+fun String.hikigramDateFormat(): String {
+    return if (VERSION.SDK_INT >= VERSION_CODES.O) {
+        LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME).format(
+            DateTimeFormatter.ofPattern(
+                AppConstants.DATE_FORMAT,
+                Locale("id", "ID")
+            )
+        )
+    } else {
+        SimpleDateFormat(
+            /* date formatter */
+            AppConstants.DATE_FORMAT, Locale("id", "ID")
+        ).format(
+            /* date source */
+            SimpleDateFormat(AppConstants.DATE_PARSER_SOURCE).parse(
+                this
+            ) as Date
+        )
+    }
 }

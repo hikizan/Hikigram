@@ -2,6 +2,7 @@ package com.hikizan.hikigram.di
 
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
+import com.hikizan.hikigram.BuildConfig
 import com.hikizan.hikigram.data.local.datastore.UserPreference
 import com.hikizan.hikigram.data.remote.network.ApiClient
 import com.hikizan.hikigram.utils.constants.BundleKeys.USER_PREFERENCE_SETTINGS
@@ -27,7 +28,7 @@ val networkModule = module {
     }
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://story-api.dicoding.dev/v1/")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()

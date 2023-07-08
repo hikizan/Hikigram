@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.story.CreateStoryActivity">
+
+    <include
+        android:id="@+id/layoutToolbarCreateStory"
+        layout="@layout/hikizan_toolbar_layout" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvPhotoContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:backgroundTint="@color/colorDarkGray"
+        android:elevation="0dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutToolbarCreateStory"
+        app:strokeColor="@color/colorLightGray"
+        app:strokeWidth="2dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_image_placeholder" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgNewPhotoStory"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerVerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCamera"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/action_camera"
+        android:textAllCaps="false"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/ic_add_camera"
+        app:iconGravity="textStart"
+        app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
+        app:layout_constraintStart_toStartOf="@+id/cvPhotoContainer"
+        app:layout_constraintTop_toBottomOf="@+id/cvPhotoContainer" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGallery"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:text="@string/action_gallery"
+        android:textAllCaps="false"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/ic_add_photo"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toBottomOf="@+id/btnCamera"
+        app:layout_constraintEnd_toEndOf="@+id/cvPhotoContainer"
+        app:layout_constraintStart_toEndOf="@+id/centerVerticalGuideline"
+        app:layout_constraintTop_toTopOf="@+id/btnCamera" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNewDescStory"
+        style="@style/HikizanTextInputLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_marginTop="16dp"
+        app:boxBackgroundColor="@color/white"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="@+id/cvPhotoContainer"
+        app:layout_constraintStart_toStartOf="@+id/cvPhotoContainer"
+        app:layout_constraintTop_toBottomOf="@+id/btnCamera">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etNewDescStory"
+            style="@style/HikizanEditTextStyle"
+            android:gravity="start|top"
+            android:hint="@string/label_description"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:maxLines="6" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCreateNewStory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:padding="10dp"
+        android:text="@string/action_upload"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tilNewDescStory"
+        app:layout_constraintStart_toStartOf="@+id/tilNewDescStory"
+        app:layout_constraintTop_toBottomOf="@+id/tilNewDescStory" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

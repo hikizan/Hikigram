@@ -4,12 +4,18 @@
     <string name="label_email">Email</string>
     <string name="label_password">Password</string>
     <string name="label_confirm_password">Confirm Password</string>
+    <string name="label_username">Username</string>
+    <string name="label_description">Description</string>
+    <string name="label_desc_value_ex">Lorem ipsum dolor sit amet, consectetur.</string>
+    <string name="label_date_value_ex">05 Jun 2023</string>
 
     <string name="hint_ex_name">Ex: Akhmad Fauzan Prayogi</string>
     <string name="hint_ex_email">Ex: akhmadfauzanprayogi@gmail.com</string>
 
     <string name="message_error_state">Whoops! Something went wrong</string>
     <string name="message_form_empty">Form must be filled!</string>
+    <string name="message_image_empty">Image file must be filled!</string>
+    <string name="message_description_empty">Description must be filled!</string>
     <string name="message_form_incorrect">Form must be corrected!</string>
     <string name="message_email_not_valid">Please enter a valid email address</string>
     <string name="message_password_not_valid">
@@ -17,12 +23,27 @@
     </string>
     <string name="message_password_not_match">Password doesn\'t match!</string>
     <string name="message_register_success">Account successfully created!</string>
+    <string name="message_empty_state">No Result Found</string>
 
+    <string name="action_create_story">Create Story</string>
     <string name="action_sign_up">Sign Up</string>
     <string name="action_sign_in">Sign In</string>
+    <string name="action_sign_out">Sign Out</string>
     <string name="action_register">Register</string>
+    <string name="action_retry">Retry</string>
     <string name="action_go_to_login">Go to login page</string>
+    <string name="action_camera">Camera</string>
+    <string name="action_gallery">Gallery</string>
+    <string name="action_upload">Upload</string>
 
     <string name="title_register_page">Register Page</string>
     <string name="title_done">Done</string>
+    <string name="title_new_story">New Story</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_journey_story">Journey Story</string>
+
+    <string name="happy_coding">Happy coding.. \n%s</string>
+    <string name="coming_soon">coming soon!</string>
+
+    <string name="content_desc_main_tab">Tab for switch between journey story and profile page</string>
 </resources>

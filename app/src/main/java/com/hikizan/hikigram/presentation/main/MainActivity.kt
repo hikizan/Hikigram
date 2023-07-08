@@ -1,12 +1,13 @@
-package com.hikizan.hikigram.presentation
+package com.hikizan.hikigram.presentation.main
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.google.android.material.tabs.TabLayoutMediator
+import com.hikizan.hikigram.R
 import com.hikizan.hikigram.base.HikizanActivityBase
 import com.hikizan.hikigram.databinding.ActivityMainBinding
-import com.hikizan.hikigram.presentation.membership.LoginActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.hikizan.hikigram.presentation.main.adapter.MainTabAdapter
 
 class MainActivity : HikizanActivityBase<ActivityMainBinding>() {
 
@@ -21,7 +22,12 @@ class MainActivity : HikizanActivityBase<ActivityMainBinding>() {
         }
     }
 
-    private val mainActivityViewModel: MainActivityViewModel by viewModel()
+    private val viewPagerAdapter: MainTabAdapter by lazy {
+        MainTabAdapter(
+            supportFragmentManager,
+            lifecycle
+        )
+    }
 
     override fun initViewBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
@@ -41,32 +47,26 @@ class MainActivity : HikizanActivityBase<ActivityMainBinding>() {
     }
 
     override fun initUI() {
+        binding?.apply {
+            val tabTitles = listOf(
+                getString(R.string.title_journey_story),
+                getString(R.string.title_profile)
+            )
+            vpMain.apply {
+                adapter = viewPagerAdapter
+            }
+            TabLayoutMediator(tabMain, vpMain) { tab, position ->
+                tab.text = tabTitles[position]
+            }.attach()
+        }
     }
 
     override fun initAction() {
-        binding?.apply {
-            btnLogout.setOnClickListener {
-                mainActivityViewModel.logoutUser()
-                LoginActivity.startNewTask(this@MainActivity)
-            }
-        }
     }
 
     override fun initProcess() {
-        mainActivityViewModel.apply {
-            getLoginState()
-            getLoginName()
-        }
     }
 
     override fun initObservers() {
-        binding?.apply {
-            mainActivityViewModel.loginNameResult.observe(this@MainActivity) { userName ->
-                tvUserName.text = "Hallo $userName"
-            }
-            mainActivityViewModel.loginStateResult.observe(this@MainActivity) { loginState ->
-                tvIsLogin.text = "isLogin = $loginState"
-            }
-        }
     }
 }
