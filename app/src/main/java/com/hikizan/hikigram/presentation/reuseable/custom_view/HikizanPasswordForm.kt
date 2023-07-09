@@ -10,9 +10,10 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.hikizan.hikigram.R
 import com.hikizan.hikigram.utils.ext.isValidPassword
+import com.jakewharton.rxbinding2.widget.RxTextView
+import io.reactivex.Observable
 
 class HikizanPasswordForm : TextInputLayout {
-    private lateinit var editText: TextInputEditText
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -26,11 +27,13 @@ class HikizanPasswordForm : TextInputLayout {
         init(context)
     }
 
+    lateinit var hikizanEditText: TextInputEditText
+
     private fun init(context: Context) {
         boxBackgroundMode = BOX_BACKGROUND_NONE
         isHintEnabled = false
-        editText = TextInputEditText(context)
-        createEditBox(editText, this)
+        hikizanEditText = TextInputEditText(context)
+        createEditBox(hikizanEditText, this)
     }
 
     private fun createEditBox(editText: TextInputEditText, textInputLayout: TextInputLayout) {
@@ -52,8 +55,10 @@ class HikizanPasswordForm : TextInputLayout {
 
             override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!charSequence.toString().isValidPassword()) {
+                    /* is not valid */
                     textInputLayout.error = context.getString(R.string.message_password_not_valid)
                 } else {
+                    /* is valid */
                     textInputLayout.error = null
                 }
             }
@@ -63,5 +68,12 @@ class HikizanPasswordForm : TextInputLayout {
             }
         })
         addView(editText)
+    }
+
+    fun isInvalidForm(): Observable<Boolean> {
+        return RxTextView.textChanges(hikizanEditText)
+            .map { value ->
+                !value.toString().isValidPassword()
+            }
     }
 }

@@ -18,11 +18,9 @@ import com.hikizan.hikigram.utils.ext.setupHikizanToolbar
 import com.hikizan.hikigram.utils.hikizanEmailStream
 import com.hikizan.hikigram.utils.hikizanMandatoryFormStream
 import com.hikizan.hikigram.utils.hikizanPasswordConfirmationStream
-import com.hikizan.hikigram.utils.hikizanPasswordStream
 import com.hikizan.hikigram.utils.showConfirmPasswordExistAlert
 import com.hikizan.hikigram.utils.showEmailExistAlert
 import com.hikizan.hikigram.utils.showMandatoryFormExistAlert
-import com.hikizan.hikigram.utils.showPasswordExistAlert
 import io.reactivex.Observable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -73,7 +71,7 @@ class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
                 registerViewModel.registerUser(
                     etRegisterName.text.toString(),
                     etRegisterEmail.text.toString(),
-                    etRegisterPassword.text.toString()
+                    etRegisterPassword.editText?.text.toString()
                 )
             }
         }
@@ -99,15 +97,8 @@ class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
                 )
             }
 
-            val passwordRegisterStream = hikizanPasswordStream(etRegisterPassword)
-            passwordRegisterStream.subscribe {
-                showPasswordExistAlert(
-                    this@RegisterActivity, tilRegisterPassword, it
-                )
-            }
-
             val passwordConfrimStream = hikizanPasswordConfirmationStream(
-                etRegisterPassword, etConfirmPassword
+                etRegisterPassword.hikizanEditText, etConfirmPassword
             )
             passwordConfrimStream.subscribe {
                 showConfirmPasswordExistAlert(
@@ -118,7 +109,7 @@ class RegisterActivity : HikizanActivityBase<ActivityRegisterBinding>() {
             val invalidFieldStream = Observable.combineLatest(
                 nameRegisterStream,
                 emailRegisterStream,
-                passwordRegisterStream,
+                etRegisterPassword.isInvalidForm(),
                 passwordConfrimStream
             ) { isEmptyName: Boolean, emailInvalid: Boolean, passwordInvalid: Boolean, passwordConfirmationInvalid: Boolean ->
                 !isEmptyName && !emailInvalid && !passwordInvalid && !passwordConfirmationInvalid
