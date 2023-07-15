@@ -13,9 +13,7 @@ import com.hikizan.hikigram.domain.reuseable.State
 import com.hikizan.hikigram.presentation.main.MainActivity
 import com.hikizan.hikigram.presentation.view_model.LoginViewModel
 import com.hikizan.hikigram.utils.hikizanEmailStream
-import com.hikizan.hikigram.utils.hikizanPasswordStream
 import com.hikizan.hikigram.utils.showEmailExistAlert
-import com.hikizan.hikigram.utils.showPasswordExistAlert
 import io.reactivex.Observable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -66,7 +64,7 @@ class LoginActivity : HikizanActivityBase<ActivityLoginBinding>() {
             btnSignIn.setOnClickListener {
                 loginViewModel.loginUser(
                     etEmail.text.toString(),
-                    etPassword.text.toString()
+                    etPassword.editText?.text.toString()
                 )
             }
         }
@@ -84,17 +82,13 @@ class LoginActivity : HikizanActivityBase<ActivityLoginBinding>() {
                 showEmailExistAlert(this@LoginActivity, tilEmail, it)
             }
 
-            val passwordStream = hikizanPasswordStream( etPassword)
-            passwordStream.subscribe {
-                showPasswordExistAlert(this@LoginActivity, tilPassword, it)
-            }
-
             val invalidFieldStream = Observable.combineLatest(
                 emailStream,
-                passwordStream
+                etPassword.isInvalidForm()
             ) { emailInvalid: Boolean, passwordInvalid: Boolean ->
                 !emailInvalid && !passwordInvalid
             }
+
             invalidFieldStream.subscribe { isValid ->
                 if (isValid) {
                     btnSignIn.isEnabled = true

@@ -9,7 +9,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.hikizan.hikigram.R
 import com.hikizan.hikigram.utils.constants.AppConstants.FILENAME_FORMAT
-import com.hikizan.hikigram.utils.ext.isValidPassword
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
 import java.io.File
@@ -53,25 +52,6 @@ fun showEmailExistAlert(
     tilEmail.error =
         if (isNotValid) {
             context.getString(R.string.message_email_not_valid)
-        } else null
-}
-
-fun hikizanPasswordStream(etPassword: TextInputEditText): Observable<Boolean> {
-    return RxTextView.textChanges(etPassword)
-        .skipInitialValue()
-        .map {
-            !it.toString().isValidPassword()
-        }
-}
-
-fun showPasswordExistAlert(
-    context: Context,
-    tilPassword: TextInputLayout,
-    isNotValid: Boolean
-) {
-    tilPassword.error =
-        if (isNotValid) {
-            context.getString(R.string.message_password_not_valid)
         } else null
 }
 

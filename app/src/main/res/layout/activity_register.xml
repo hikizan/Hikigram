@@ -87,18 +87,13 @@
             android:layout_height="3dp"
             android:background="?attr/colorPrimary" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilRegisterPassword"
-            style="@style/HikizanTextInputLayoutStyle.Password"
-            android:layout_marginTop="8dp"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etRegisterPassword"
-                style="@style/HikizanEditTextStyle"
-                android:hint="@string/label_password"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <com.hikizan.hikigram.presentation.reuseable.custom_view.HikizanPasswordForm
+            android:id="@+id/etRegisterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:passwordToggleEnabled="true"
+            android:layout_marginTop="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilConfirmPassword"
