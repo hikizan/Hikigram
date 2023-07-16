@@ -6,18 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.story.StoryFragment">
 
-    <com.kennyc.view.MultiStateView
-        android:id="@+id/msvStories"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeStoryContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:msv_errorView="@layout/hikizan_error_state_layout"
-        app:msv_emptyView="@layout/hikizan_empty_state_layout"
-        app:msv_loadingView="@layout/story_loading_state_layout">
-        
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeStoryContainer"
+        android:layout_height="match_parent">
+
+        <com.kennyc.view.MultiStateView
+            android:id="@+id/msvStories"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:msv_errorView="@layout/hikizan_error_state_layout"
+            app:msv_emptyView="@layout/hikizan_empty_state_layout"
+            app:msv_loadingView="@layout/story_loading_state_layout">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvStories"
@@ -25,8 +25,8 @@
                 android:layout_height="wrap_content"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_story_list"/>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </com.kennyc.view.MultiStateView>
 
-    </com.kennyc.view.MultiStateView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </FrameLayout>
