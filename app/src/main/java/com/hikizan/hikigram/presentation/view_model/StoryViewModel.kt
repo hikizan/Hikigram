@@ -18,8 +18,8 @@ import java.io.File
 
 class StoryViewModel(private val storyUseCase: StoryUseCase) : ViewModel() {
 
-    private val _storiesResult: MutableLiveData<State<List<Story>>> = MutableLiveData()
-    val storiesResult: LiveData<State<List<Story>>> get() = _storiesResult
+    private val _storiesWithLocationResult: MutableLiveData<State<List<Story>>> = MutableLiveData()
+    val storiesWithLocationResult: LiveData<State<List<Story>>> get() = _storiesWithLocationResult
 
     private val _storiesWithoutLocationResult: MutableLiveData<PagingData<Story>> = MutableLiveData()
     val storiesWithoutLocationResult get() = _storiesWithoutLocationResult
@@ -30,8 +30,8 @@ class StoryViewModel(private val storyUseCase: StoryUseCase) : ViewModel() {
     private val _createStoryResult: MutableLiveData<State<StoryCreated>> = MutableLiveData()
     val createStoryResult: LiveData<State<StoryCreated>> get() = _createStoryResult
 
-    fun fetchStories() = viewModelScope.launch {
-        proceed(_storiesResult) {
+    fun fetchStoriesWithLocation() = viewModelScope.launch {
+        proceed(_storiesWithLocationResult) {
             storyUseCase.getStoriesWithLocation()
         }
     }

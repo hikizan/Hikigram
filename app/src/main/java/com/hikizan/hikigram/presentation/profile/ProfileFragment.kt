@@ -7,6 +7,7 @@ import com.hikizan.hikigram.base.HikizanFragmentBase
 import com.hikizan.hikigram.databinding.FragmentProfileBinding
 import com.hikizan.hikigram.presentation.membership.LoginActivity
 import com.hikizan.hikigram.presentation.story.CreateStoryActivity
+import com.hikizan.hikigram.presentation.story.map.MapStoriesActivity
 import com.hikizan.hikigram.presentation.view_model.ProfileViewModel
 import com.hikizan.hikigram.utils.ext.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,8 +40,11 @@ class ProfileFragment : HikizanFragmentBase<FragmentProfileBinding>() {
 
     override fun initAction() {
         binding?.apply {
-            imgBookmarks.setOnClickListener {
+            /*imgBookmarks.setOnClickListener {
                 requireContext().showToast(getString(R.string.coming_soon))
+            }*/
+            imgOpenStoriesMap.setOnClickListener {
+                MapStoriesActivity.start(requireContext())
             }
             btnLogout.setOnClickListener {
                 profileViewModel.logoutUser()
