@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.hikizan.hikigram.domain.reuseable.State
 import com.hikizan.hikigram.domain.story.StoryUseCase
 import com.hikizan.hikigram.domain.story.model.request.StoryCreatedParam
@@ -19,6 +21,9 @@ class StoryViewModel(private val storyUseCase: StoryUseCase) : ViewModel() {
     private val _storiesResult: MutableLiveData<State<List<Story>>> = MutableLiveData()
     val storiesResult: LiveData<State<List<Story>>> get() = _storiesResult
 
+    private val _storiesWithoutLocationResult: MutableLiveData<PagingData<Story>> = MutableLiveData()
+    val storiesWithoutLocationResult get() = _storiesWithoutLocationResult
+
     private val _detailStoryResult: MutableLiveData<State<Story>> = MutableLiveData()
     val detailStoryResult: LiveData<State<Story>> get() = _detailStoryResult
 
@@ -27,7 +32,13 @@ class StoryViewModel(private val storyUseCase: StoryUseCase) : ViewModel() {
 
     fun fetchStories() = viewModelScope.launch {
         proceed(_storiesResult) {
-            storyUseCase.getStories()
+            storyUseCase.getStoriesWithLocation()
+        }
+    }
+
+    fun fetchStoriesWithoutLocation() = viewModelScope.launch {
+        storyUseCase.getStoriesWithoutLocation().cachedIn(viewModelScope).collect { pagingStory ->
+            _storiesWithoutLocationResult.value = pagingStory
         }
     }
 

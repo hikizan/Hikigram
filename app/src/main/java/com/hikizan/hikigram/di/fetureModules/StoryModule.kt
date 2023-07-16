@@ -11,7 +11,7 @@ import org.koin.dsl.module
 
 val storyRepositoryModule = module {
     single { RemoteStoryDataSource(get()) }
-    single<StoryRepository> { ImplStoryRepository(get(), get()) }
+    single<StoryRepository> { ImplStoryRepository(get(), get(), get()) }
 }
 
 val storyUseCaseModule = module {

@@ -6,4 +6,8 @@ object AppConstants {
 
     const val MAXIMAL_IMAGE_FILE_SIZE = 1000
     const val FILENAME_FORMAT = "dd-MMM-yyyy"
+
+    const val INITIAL_PAGE_INDEX = 1
+    const val LOCATION_TRUE = 1
+    const val LOCATION_FALSE = 0
 }
