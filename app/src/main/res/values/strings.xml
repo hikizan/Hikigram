@@ -16,7 +16,6 @@
     <string name="message_form_empty">Form must be filled!</string>
     <string name="message_image_empty">Image file must be filled!</string>
     <string name="message_description_empty">Description must be filled!</string>
-    <string name="message_form_incorrect">Form must be corrected!</string>
     <string name="message_email_not_valid">Please enter a valid email address</string>
     <string name="message_password_not_valid">
         Password must be at least 8 character, 1 lowercase, 1 uppercase, 1 special character, and at least 1 digit number
@@ -45,7 +44,6 @@
     <string name="title_journey_story">Journey Story</string>
 
     <string name="happy_coding">Happy coding.. \n%s</string>
-    <string name="coming_soon">coming soon!</string>
 
     <string name="content_desc_main_tab">Tab for switch between journey story and profile page</string>
     <string name="title_activity_map_stories">MapStoriesActivity</string>
