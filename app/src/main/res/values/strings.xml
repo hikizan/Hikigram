@@ -24,6 +24,7 @@
     <string name="message_password_not_match">Password doesn\'t match!</string>
     <string name="message_register_success">Account successfully created!</string>
     <string name="message_empty_state">No Result Found</string>
+    <string name="message_marker_clicked_instruction">Want to see detail story of %s</string>
 
     <string name="action_create_story">Create Story</string>
     <string name="action_sign_up">Sign Up</string>
