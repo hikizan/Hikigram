@@ -20,6 +20,7 @@ import com.hikizan.hikigram.base.HikizanActivityBase
 import com.hikizan.hikigram.databinding.ActivityMapStoriesBinding
 import com.hikizan.hikigram.domain.reuseable.State
 import com.hikizan.hikigram.domain.story.model.response.Story
+import com.hikizan.hikigram.presentation.story.DetailStoryActivity
 import com.hikizan.hikigram.presentation.view_model.StoryViewModel
 import com.hikizan.hikigram.utils.ext.imageUrlToBitmap
 import com.hikizan.hikigram.utils.ext.orZero
@@ -70,26 +71,7 @@ class MapStoriesActivity : HikizanActivityBase<ActivityMapStoriesBinding>(), OnM
         }
     }
 
-    override fun initAction() {
-        binding?.apply {
-            /*if (mMap != null) {
-                mMap?.setOnMarkerClickListener { marker -> // on marker click we are getting the title of our marker
-                    // which is clicked and displaying it in a toast message.
-                    val position = marker.tag as Int
-                    val snackbar = Snackbar.make(
-                        mapsContainer,
-                        mapStoryLocations[position].description, Snackbar.LENGTH_LONG
-                    )
-                        .setAction(getString(R.string.action_detail)) {
-                            DetailStoryActivity.start(this@MapStoriesActivity, mapStoryLocations[position].id)
-                        }
-                    snackbar.show()
-                    Timber.d("Name = ${mapStoryLocations[position].name}")
-                    false
-                }
-            }*/
-        }
-    }
+    override fun initAction() {}
 
     override fun initProcess() {
         storyViewModel.fetchStoriesWithLocation()
@@ -144,7 +126,6 @@ class MapStoriesActivity : HikizanActivityBase<ActivityMapStoriesBinding>(), OnM
             isMapToolbarEnabled = true
         }
 
-        // Add a marker in Sydney and move the camera
         val jakarta = LatLng(-6.200000, 106.816666)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(jakarta, 5f))
         getMyLocation()
@@ -152,15 +133,20 @@ class MapStoriesActivity : HikizanActivityBase<ActivityMapStoriesBinding>(), OnM
         if (mapStoryLocations.isNotEmpty()) {
             addStoriesMarker(mapStoryLocations)
 
-            /*mMap.setOnMarkerClickListener(OnMarkerClickListener { marker ->
-                val position: Int? = marker.tag as Int ?: 0
-                //Using position get Value from arraylist
-                if (position != null) {
-                    DetailStoryActivity.start(this@MapStoriesActivity, mapStoryLocations[position].id)
-                    Timber.d("Name = ${mapStoryLocations[position].name}")
+            mMap.setOnMarkerClickListener { marker ->
+                Timber.d("onMarkClicked: ELSE CONDITION: marker id = ${marker.snippet.toString()}")
+                binding?.apply {
+                    val snackbar = Snackbar.make(
+                        mapsContainer,
+                        getString(R.string.message_marker_clicked_instruction, marker.title),
+                        Snackbar.LENGTH_LONG
+                    ).setAction(getString(R.string.action_detail)) {
+                        DetailStoryActivity.start(this@MapStoriesActivity, marker.snippet.toString())
+                    }
+                    snackbar.show()
                 }
                 false
-            })*/
+            }
         }
     }
 
@@ -218,7 +204,7 @@ class MapStoriesActivity : HikizanActivityBase<ActivityMapStoriesBinding>(), OnM
                         MarkerOptions()
                             .position(latitudeLongitude)
                             .title(story.name)
-                            .snippet(story.description)
+                            .snippet(story.id)
                             .icon(BitmapDescriptorFactory.fromBitmap(
                                 photoBitmap
                             ))
