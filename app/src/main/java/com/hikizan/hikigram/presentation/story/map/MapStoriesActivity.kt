@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -21,7 +20,6 @@ import com.hikizan.hikigram.base.HikizanActivityBase
 import com.hikizan.hikigram.databinding.ActivityMapStoriesBinding
 import com.hikizan.hikigram.domain.reuseable.State
 import com.hikizan.hikigram.domain.story.model.response.Story
-import com.hikizan.hikigram.presentation.story.DetailStoryActivity
 import com.hikizan.hikigram.presentation.view_model.StoryViewModel
 import com.hikizan.hikigram.utils.ext.imageUrlToBitmap
 import com.hikizan.hikigram.utils.ext.orZero
@@ -154,7 +152,7 @@ class MapStoriesActivity : HikizanActivityBase<ActivityMapStoriesBinding>(), OnM
         if (mapStoryLocations.isNotEmpty()) {
             addStoriesMarker(mapStoryLocations)
 
-            mMap.setOnMarkerClickListener(OnMarkerClickListener { marker ->
+            /*mMap.setOnMarkerClickListener(OnMarkerClickListener { marker ->
                 val position: Int? = marker.tag as Int ?: 0
                 //Using position get Value from arraylist
                 if (position != null) {
@@ -162,7 +160,7 @@ class MapStoriesActivity : HikizanActivityBase<ActivityMapStoriesBinding>(), OnM
                     Timber.d("Name = ${mapStoryLocations[position].name}")
                 }
                 false
-            })
+            })*/
         }
     }
 
@@ -186,7 +184,7 @@ class MapStoriesActivity : HikizanActivityBase<ActivityMapStoriesBinding>(), OnM
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            mMap?.isMyLocationEnabled = true
+            mMap.isMyLocationEnabled = true
         } else {
             requestPermissionLauncher.launch(
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -195,7 +193,7 @@ class MapStoriesActivity : HikizanActivityBase<ActivityMapStoriesBinding>(), OnM
     }
 
     private fun addStoriesMarker(storiesPlace: List<Story>) {
-        mMap?.moveCamera(
+        mMap.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
                 LatLng(
                     storiesPlace.firstOrNull()?.lat.orZero(),
@@ -216,7 +214,7 @@ class MapStoriesActivity : HikizanActivityBase<ActivityMapStoriesBinding>(), OnM
                         )
                     }
 
-                    mMap?.addMarker(
+                    mMap.addMarker(
                         MarkerOptions()
                             .position(latitudeLongitude)
                             .title(story.name)
