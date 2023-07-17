@@ -24,7 +24,7 @@ class DetailStoryActivity : HikizanActivityBase<ActivityDetailStoryBinding>() {
 
     companion object {
 
-        fun start(
+        fun startWithOptionCompat(
             context: Context,
             storyId: String,
             optionCompat: ActivityOptionsCompat
@@ -34,6 +34,17 @@ class DetailStoryActivity : HikizanActivityBase<ActivityDetailStoryBinding>() {
                     putExtra(BundleKeys.KEY_STORY_ID, storyId)
                 },
                 optionCompat.toBundle()
+            )
+        }
+
+        fun start(
+            context: Context,
+            storyId: String
+        ) {
+            context.startActivity(
+                Intent(context, DetailStoryActivity::class.java).apply {
+                    putExtra(BundleKeys.KEY_STORY_ID, storyId)
+                }
             )
         }
     }

@@ -35,6 +35,7 @@
     <string name="action_camera">Camera</string>
     <string name="action_gallery">Gallery</string>
     <string name="action_upload">Upload</string>
+    <string name="action_detail">Detail</string>
 
     <string name="title_register_page">Register Page</string>
     <string name="title_done">Done</string>
@@ -46,4 +47,5 @@
     <string name="coming_soon">coming soon!</string>
 
     <string name="content_desc_main_tab">Tab for switch between journey story and profile page</string>
+    <string name="title_activity_map_stories">MapStoriesActivity</string>
 </resources>

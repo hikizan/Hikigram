@@ -67,7 +67,7 @@ class StoryFragment : HikizanFragmentBase<FragmentStoryBinding>() {
             }
 
             storyPagingDataAdapter.onItemClick = { selectedData, optionCompat ->
-                DetailStoryActivity.start(
+                DetailStoryActivity.startWithOptionCompat(
                     requireContext(),
                     selectedData.id,
                     optionCompat

@@ -1,6 +1,8 @@
 package com.hikizan.hikigram.utils.ext
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
@@ -8,10 +10,12 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.hikizan.hikigram.R
 import com.hikizan.hikigram.databinding.HikizanToolbarLayoutBinding
 import com.hikizan.hikigram.utils.constants.AppConstants
 import com.kennyc.view.MultiStateView
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -74,6 +78,10 @@ fun String?.orEmptyString(): String {
     return this ?: ""
 }
 
+fun Double?.orZero(): Double {
+    return this ?: 0.0
+}
+
 fun String.isValidPassword(): Boolean {
     if (this.length < 8) return false
     if (this.filter { it.isDigit() }.firstOrNull() == null) return false
@@ -107,4 +115,15 @@ fun String.hikigramDateFormat(): String {
             ) as Date
         )
     }
+}
+
+/* Note: if you'll use this, you must apply on Dispatchers.IO scope! */
+fun String.imageUrlToBitmap(context: Context): Bitmap {
+    return Glide.with(context)
+        .asBitmap()
+        .load(this)
+        .override(150, 150)
+        .circleCrop()
+        .submit()
+        .get()
 }
